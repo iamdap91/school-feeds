@@ -37,5 +37,3 @@ volumes:
     name: classting-mysql
 #  queue-data:
 #    name: hied-redis
-  ~
-  ~
