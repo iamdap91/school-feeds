@@ -23,6 +23,14 @@ import { entities } from './models/entities';
           synchronize: true,
           namingStrategy: new SnakeNamingStrategy(),
           extra: { decimalNumbers: true },
+          // cache: {
+          //   type: 'ioredis',
+          //   options: {
+          //     host: process.env.REDIS_HOST || 'localhost',
+          //     port: Number(process.env.REDIS_PORT) || 6379,
+          //     db: 1,
+          //   },
+          // },
         }),
     },
   ],

@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { CreateColumn } from '../decorators';
+import { SchoolEntity } from './school.entity';
 
 @Entity('manager')
 export class ManagerEntity {
@@ -14,4 +15,7 @@ export class ManagerEntity {
 
   @Column()
   deletedAt: Date;
+
+  @OneToMany(() => SchoolEntity, (school) => school.manager)
+  schools: SchoolEntity[];
 }
