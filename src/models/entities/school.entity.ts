@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'ty
 import { CreateColumn } from '../decorators';
 import { ManagerEntity } from './manager.entity';
 import { PostEntity } from './post.entity';
+import { FollowEntity } from './follow.entity';
 
 @Entity('school')
 export class SchoolEntity {
@@ -25,4 +26,7 @@ export class SchoolEntity {
 
   @OneToMany(() => PostEntity, (post) => post.school)
   posts: PostEntity[];
+
+  @ManyToOne(() => FollowEntity, (follow) => follow.school)
+  follows: FollowEntity[];
 }
