@@ -22,6 +22,7 @@ import { entities } from './models/entities';
           entities,
           synchronize: true,
           namingStrategy: new SnakeNamingStrategy(),
+          extra: { decimalNumbers: true },
         }),
     },
   ],

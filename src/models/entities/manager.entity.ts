@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { CreateColumn } from '../decorators';
 
-@Entity()
+@Entity('manager')
 export class ManagerEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -8,9 +9,9 @@ export class ManagerEntity {
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @Column()
+  @CreateColumn()
   createdAt: Date;
 
   @Column()
-  DeletedAt: Date;
+  deletedAt: Date;
 }
