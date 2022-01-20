@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { createConnection } from 'typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+
 import { ManagersModule } from './managers/managers.module';
 import { entities } from './models/entities';
 
 @Module({
   imports: [ManagersModule],
-  controllers: [],
   providers: [
     {
       provide: 'DATABASE_CONNECTION',
@@ -19,6 +20,7 @@ import { entities } from './models/entities';
           database: process.env.DATABASE_DATABASE || 'database',
           entities,
           synchronize: true,
+          namingStrategy: new SnakeNamingStrategy(),
         }),
     },
   ],
