@@ -8,6 +8,6 @@ export * from './manager.entity';
 export * from './follow.entity';
 export * from './post.entity';
 export * from './school.entity';
-export * from './school.entity';
+export * from './student.entity';
 
 export const entities = [ManagerEntity, SchoolEntity, PostEntity, FollowEntity, StudentEntity];

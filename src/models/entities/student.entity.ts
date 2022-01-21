@@ -6,6 +6,12 @@ export class StudentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'varchar', length: 50 })
+  email: string;
+
+  @Column({ type: 'varchar', length: 20 })
+  password: string;
+
   @Column({ type: 'varchar', length: 100 })
   name: string;
 

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';
+
 import { ManagersController } from './managers.controller';
 import { ManagersService } from './managers.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ManagerEntity } from '../models/entities';
-import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../auth/constants';
 
 @Module({
