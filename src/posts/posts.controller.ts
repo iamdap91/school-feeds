@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { ManagerJwtAuthGuard } from '../auth/guards/manager-jwt-auth.guard';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
@@ -22,5 +22,13 @@ export class PostsController {
   @ApiBearerAuth('JWT-auth')
   async updatePost(@Param('id') id, @Body() body: UpdatePostDto) {
     return await this.postsService.updatePost(id, body.content);
+  }
+
+  @Delete(':id')
+  @UseGuards(ManagerJwtAuthGuard)
+  @ApiParam({ name: 'id', required: true, type: 'number' })
+  @ApiBearerAuth('JWT-auth')
+  async deletePost(@Param('id') id) {
+    return await this.postsService.deletePost(id);
   }
 }

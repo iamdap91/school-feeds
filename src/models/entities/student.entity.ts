@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { CreateColumn } from '../decorators';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, DeleteDateColumn } from 'typeorm';
 import { FollowEntity } from './follow.entity';
 
 @Entity('student')
@@ -10,10 +9,10 @@ export class StudentEntity {
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @CreateColumn()
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ default: null })
+  @DeleteDateColumn()
   deletedAt: Date;
 
   @OneToMany(() => FollowEntity, (follow) => follow.student)

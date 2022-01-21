@@ -21,4 +21,8 @@ export class PostsService {
     if (!content) throw new NoContentError();
     return !!(await this.postEntityRepository.update(id, { content }));
   }
+
+  async deletePost(id: number) {
+    return !!(await this.postEntityRepository.softDelete(id));
+  }
 }
