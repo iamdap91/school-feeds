@@ -5,6 +5,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { entities } from './models/entities';
 import { AuthModule } from './auth/auth.module';
 import { SchoolsModule } from './schools/schools.module';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -21,16 +22,9 @@ import { SchoolsModule } from './schools/schools.module';
       synchronize: true,
       namingStrategy: new SnakeNamingStrategy(),
       extra: { decimalNumbers: true },
-      // cache: {
-      //   type: 'ioredis',
-      //   options: {
-      //     host: process.env.REDIS_HOST || 'localhost',
-      //     port: Number(process.env.REDIS_PORT) || 6379,
-      //     db: 1,
-      //   },
-      // },
     }),
     SchoolsModule,
+    PostsModule,
   ],
   providers: [],
 })

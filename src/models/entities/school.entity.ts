@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, Index } from 'typeorm';
-import { CreateColumn } from '../decorators';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  Index,
+  CreateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 import { ManagerEntity } from './manager.entity';
 import { PostEntity } from './post.entity';
 import { FollowEntity } from './follow.entity';
@@ -19,10 +27,10 @@ export class SchoolEntity {
   @Column({ type: 'varchar', length: 20 })
   type: string;
 
-  @CreateColumn()
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ default: null })
+  @DeleteDateColumn()
   deletedAt: Date;
 
   @ManyToOne(() => ManagerEntity, (manager) => manager.schools)
