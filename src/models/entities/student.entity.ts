@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { CreateColumn } from '../decorators';
 import { FollowEntity } from './follow.entity';
 
@@ -13,9 +13,9 @@ export class StudentEntity {
   @CreateColumn()
   createdAt: Date;
 
-  @Column()
+  @Column({ default: null })
   deletedAt: Date;
 
-  @ManyToOne(() => FollowEntity, (follow) => follow.student)
+  @OneToMany(() => FollowEntity, (follow) => follow.student)
   follows: FollowEntity[];
 }

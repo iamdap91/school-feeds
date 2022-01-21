@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index } from 'typeorm';
 import { CreateColumn } from '../decorators';
 import { SchoolEntity } from './school.entity';
 
@@ -10,10 +10,14 @@ export class PostEntity {
   @Column({ type: 'longtext' })
   content: string;
 
+  @Index()
+  @Column('int')
+  schoolId: number;
+
   @CreateColumn()
   createdAt: Date;
 
-  @Column()
+  @Column({ default: null })
   deletedAt: Date;
 
   @ManyToOne(() => SchoolEntity, (school) => school.posts)

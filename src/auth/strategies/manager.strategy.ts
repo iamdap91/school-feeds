@@ -12,7 +12,7 @@ export class ManagerStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(email: string, password: string): Promise<any> {
+  async validate(email: string, password: string) {
     const account = await this.managersService.validateUser(email, password);
     if (!account) {
       throw new UnauthorizedException();
