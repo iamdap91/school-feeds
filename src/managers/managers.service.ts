@@ -15,7 +15,7 @@ export class ManagersService {
     private readonly jwtService: JwtService
   ) {}
 
-  async register({ email, password, name }: RegisterManagerDto) {
+  async register({ email, password, name }: RegisterManagerDto): Promise<boolean> {
     const account = await this.managerRepository.findOne({ select: ['id'], where: { email } });
     if (account) {
       throw new ExistingAccountError();
@@ -24,7 +24,7 @@ export class ManagersService {
     return !!(await this.managerRepository.save({ email, password, name }));
   }
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<Omit<ManagerEntity, 'password'>> {
     const account = await this.managerRepository.findOne({
       select: ['id', 'email', 'name', 'password'],
       where: { email },
@@ -39,7 +39,7 @@ export class ManagersService {
   }
 
   async login({ email, password }: LoginDto) {
-    const payload = { email, password, manager: true };
-    return { token: this.jwtService.sign(payload) };
+    const payload = { email, password, isManager: true };
+    return { 'access-token': this.jwtService.sign(payload) };
   }
 }
