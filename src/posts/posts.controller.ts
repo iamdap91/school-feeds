@@ -1,8 +1,8 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { ManagerJwtAuthGuard } from '../auth/guards/manager-jwt-auth.guard';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreatePostDto } from './dto';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { CreatePostDto, UpdatePostDto } from './dto';
 
 @ApiTags('posts')
 @Controller('posts')
@@ -14,5 +14,13 @@ export class PostsController {
   @ApiBearerAuth('JWT-auth')
   async createPost(@Body() body: CreatePostDto) {
     return await this.postsService.createPost(body);
+  }
+
+  @Put(':id')
+  @UseGuards(ManagerJwtAuthGuard)
+  @ApiParam({ name: 'id', required: true, type: 'number' })
+  @ApiBearerAuth('JWT-auth')
+  async updatePost(@Param('id') id, @Body() body: UpdatePostDto) {
+    return await this.postsService.updatePost(id, body.content);
   }
 }

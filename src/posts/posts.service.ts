@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { PostEntity } from '../models/entities';
 import { CreatePostDto } from './dto';
+import { NoContentError } from '../errors';
 
 @Injectable()
 export class PostsService {
@@ -14,5 +15,10 @@ export class PostsService {
 
   async createPost({ schoolId, content }: CreatePostDto) {
     return !!(await this.postEntityRepository.save({ schoolId, content }));
+  }
+
+  async updatePost(id: number, content: string) {
+    if (!content) throw new NoContentError();
+    return !!(await this.postEntityRepository.update(id, { content }));
   }
 }
