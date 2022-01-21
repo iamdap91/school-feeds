@@ -2,20 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-
-import { ManagersModule } from './managers/managers.module';
 import { entities } from './models/entities';
-import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    //
-    UsersModule,
     AuthModule,
-    //
     ConfigModule.forRoot(),
-    ManagersModule,
     TypeOrmModule.forRoot({
       type: 'mariadb',
       host: process.env.DATABASE_HOST || 'localhost',
