@@ -20,7 +20,6 @@ export class ManagersService {
     if (account) {
       throw new ExistingAccountError();
     }
-
     return !!(await this.managerRepository.save({ email, password, name }));
   }
 

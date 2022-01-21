@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { StudentEntity } from '../models/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
+
+import { ExistingAccountError } from '../errors';
+import { RegisterStudentDto } from './dto';
+import { StudentEntity } from '../models/entities';
 
 @Injectable()
 export class StudentsService {
@@ -12,8 +15,12 @@ export class StudentsService {
     private readonly jwtService: JwtService
   ) {}
 
-  async register(body) {
-    return Promise.resolve(undefined);
+  async register({ email, password, name }: RegisterStudentDto): Promise<boolean> {
+    const account = await this.studentEntityRepository.findOne({ select: ['id'], where: { email } });
+    if (account) {
+      throw new ExistingAccountError();
+    }
+    return !!(await this.studentEntityRepository.save({ email, password, name }));
   }
 
   async validateUser(email: string, password: string): Promise<Omit<StudentEntity, 'password'>> {
