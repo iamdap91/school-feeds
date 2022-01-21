@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { jwtConstants } from '../constants';
@@ -14,6 +14,7 @@ export class ManagerJwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate({ email, isManager }) {
-    return { email, isManager: !!isManager };
+    if (!isManager) throw new UnauthorizedException();
+    return { email, isManager };
   }
 }
