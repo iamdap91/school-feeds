@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 import { RegisterManagerDto } from './dto';
 import { ManagersService } from './managers.service';
-import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
+import { ManagerAuthGuard } from '../auth/guards/manager-auth-guard.service';
 
 @Controller('managers')
 @ApiTags('managers')
@@ -20,7 +20,7 @@ export class ManagersController {
     return await this.managersService.register(body);
   }
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(ManagerAuthGuard)
   @Post('login')
   async login(@Request() req) {
     return this.managersService.login(req.user);

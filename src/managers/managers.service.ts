@@ -21,7 +21,7 @@ export class ManagersService {
       throw new ExistingAccountError();
     }
 
-    return await this.managerRepository.save({ email, password, name });
+    return !!(await this.managerRepository.save({ email, password, name }));
   }
 
   async validateUser(email: string, password: string): Promise<any> {
