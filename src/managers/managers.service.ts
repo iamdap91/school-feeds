@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 
 import { ExistingAccountError } from '../errors';
 import { ManagerEntity } from '../models/entities';
-import { LoginDto, RegisterManagerDto } from './dto';
+import { RegisterManagerDto } from './dto';
 
 @Injectable()
 export class ManagersService {
@@ -38,8 +38,8 @@ export class ManagersService {
     return null;
   }
 
-  async login({ email, password }: LoginDto) {
-    const payload = { email, password, isManager: true };
+  async login({ id, email, name }: Pick<ManagerEntity, 'id' | 'email' | 'name'>) {
+    const payload = { id, email, name, isManager: true };
     return { 'access-token': this.jwtService.sign(payload) };
   }
 }

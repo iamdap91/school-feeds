@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, Index } from 'typeorm';
 import { CreateColumn } from '../decorators';
 import { ManagerEntity } from './manager.entity';
 import { PostEntity } from './post.entity';
@@ -9,6 +9,10 @@ export class SchoolEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index()
+  @Column('int')
+  managerId: number;
+
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
@@ -18,7 +22,7 @@ export class SchoolEntity {
   @CreateColumn()
   createdAt: Date;
 
-  @Column()
+  @Column({ default: null })
   deletedAt: Date;
 
   @ManyToOne(() => ManagerEntity, (manager) => manager.schools)
@@ -27,6 +31,6 @@ export class SchoolEntity {
   @OneToMany(() => PostEntity, (post) => post.school)
   posts: PostEntity[];
 
-  @ManyToOne(() => FollowEntity, (follow) => follow.school)
+  @OneToMany(() => FollowEntity, (follow) => follow.school)
   follows: FollowEntity[];
 }

@@ -13,8 +13,8 @@ export class ManagerJwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate({ email, isManager }) {
+  async validate({ id, email, name, isManager }) {
     if (!isManager) throw new UnauthorizedException();
-    return { email, isManager };
+    return { id, email, name, isManager };
   }
 }

@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { entities } from './models/entities';
 import { AuthModule } from './auth/auth.module';
+import { SchoolsModule } from './schools/schools.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthModule } from './auth/auth.module';
       //   },
       // },
     }),
+    SchoolsModule,
   ],
   providers: [],
 })
