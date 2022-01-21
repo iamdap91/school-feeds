@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './constants';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { ManagerJwtStrategy } from './strategies/manager-jwt.strategy';
 import { ManagerStrategy } from './strategies/manager.strategy';
 import { ManagersModule } from '../managers/managers.module';
 
@@ -15,7 +15,7 @@ import { ManagersModule } from '../managers/managers.module';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  providers: [ManagerStrategy, JwtStrategy],
+  providers: [ManagerStrategy, ManagerJwtStrategy],
   exports: [],
 })
 export class AuthModule {}
