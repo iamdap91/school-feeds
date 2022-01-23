@@ -2,8 +2,11 @@ import { Body, Controller, Get, Post, Request, UnauthorizedException, UseGuards 
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { StudentsService } from './students.service';
-import { StudentJwtStrategy } from '../auth/strategies/student-jwt.strategy';
 import { RegisterStudentDto, StudentLoginDto } from './dto';
+import { JwtStrategy } from '../auth/strategies/jwt.strategy';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Role } from '../common';
 
 @ApiTags('students')
 @Controller('students')
@@ -22,9 +25,10 @@ export class StudentsController {
     return this.studentsService.login(user);
   }
 
-  @UseGuards(StudentJwtStrategy)
-  @ApiBearerAuth('JWT-auth')
   @Get('profile')
+  @Roles(Role.Student)
+  @UseGuards(JwtStrategy, RolesGuard)
+  @ApiBearerAuth('JWT-auth')
   async profile(@Request() req) {
     return req.user;
   }

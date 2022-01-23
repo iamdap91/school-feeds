@@ -11,7 +11,7 @@ import { jwtConstants } from '../auth/constants';
   imports: [
     TypeOrmModule.forFeature([StudentEntity]),
     JwtModule.register({
-      secret: jwtConstants.secret.student,
+      secret: jwtConstants.secret.manager,
       signOptions: { expiresIn: '1d' },
     }),
   ],

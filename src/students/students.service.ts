@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ExistingAccountError } from '../errors';
 import { RegisterStudentDto } from './dto';
 import { StudentEntity } from '../models/entities';
+import { Role } from '../common';
 
 @Injectable()
 export class StudentsService {
@@ -38,7 +39,7 @@ export class StudentsService {
   }
 
   async login({ id, email, name }: Pick<StudentEntity, 'id' | 'email' | 'name'>) {
-    const payload = { id, email, name };
+    const payload = { id, email, name, role: Role.Student };
     return { 'access-token': this.jwtService.sign(payload) };
   }
 }
