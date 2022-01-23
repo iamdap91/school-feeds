@@ -23,7 +23,7 @@ export class StudentsService {
     return !!(await this.studentEntityRepository.save({ email, password, name }));
   }
 
-  async validateUser(email: string, password: string): Promise<Omit<StudentEntity, 'password'>> {
+  async validateUser({ email, password }): Promise<Omit<StudentEntity, 'password'>> {
     const account = await this.studentEntityRepository.findOne({
       select: ['id', 'email', 'name', 'password'],
       where: { email },

@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { StudentsService } from './students.service';
-import { StudentAuthGuard } from '../auth/guards/student-auth-guard.service';
 import { StudentJwtStrategy } from '../auth/strategies/student-jwt.strategy';
 import { RegisterStudentDto, StudentLoginDto } from './dto';
 
@@ -16,10 +15,11 @@ export class StudentsController {
     return await this.studentsService.register(body);
   }
 
-  @UseGuards(StudentAuthGuard)
   @Post('login')
-  async login(@Request() req, @Body() body: StudentLoginDto) {
-    return this.studentsService.login(req.user);
+  async login(@Body() body: StudentLoginDto) {
+    const user = await this.studentsService.validateUser(body);
+    if (!user) throw new UnauthorizedException();
+    return this.studentsService.login(user);
   }
 
   @UseGuards(StudentJwtStrategy)

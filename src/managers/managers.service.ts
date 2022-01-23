@@ -23,7 +23,7 @@ export class ManagersService {
     return !!(await this.managerRepository.save({ email, password, name }));
   }
 
-  async validateUser(email: string, password: string): Promise<Omit<ManagerEntity, 'password'>> {
+  async validateUser({ email, password }): Promise<Omit<ManagerEntity, 'password'>> {
     const account = await this.managerRepository.findOne({
       select: ['id', 'email', 'name', 'password'],
       where: { email },
