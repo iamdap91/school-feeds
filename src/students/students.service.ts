@@ -42,4 +42,8 @@ export class StudentsService {
     const payload = { id, email, name, role: Role.Student };
     return { 'access-token': this.jwtService.sign(payload) };
   }
+
+  addFollow(id: number, { postId }) {
+    console.log(id, postId);
+  }
 }
