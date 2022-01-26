@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class AddFollowDto {
+export class ToggleFollowDto {
   @ApiProperty()
-  postId: string;
+  schoolId: number;
 }
