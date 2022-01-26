@@ -1,31 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 
 import { ExistingAccountError } from '../errors';
-import { RegisterStudentDto } from './dto';
+import { ToggleFollowDto, RegisterStudentDto } from './dto';
 import { StudentEntity } from '../models/entities';
 import { Role } from '../common';
+import { FollowRepository, StudentRepository } from '../models/repositories';
 
 @Injectable()
 export class StudentsService {
   constructor(
-    @InjectRepository(StudentEntity)
-    private studentEntityRepository: Repository<StudentEntity>,
+    private studentRepository: StudentRepository,
+    private followRepository: FollowRepository,
     private readonly jwtService: JwtService
   ) {}
 
   async register({ email, password, name }: RegisterStudentDto): Promise<boolean> {
-    const account = await this.studentEntityRepository.findOne({ select: ['id'], where: { email } });
+    const account = await this.studentRepository.findOne({ select: ['id'], where: { email } });
     if (account) {
       throw new ExistingAccountError();
     }
-    return !!(await this.studentEntityRepository.save({ email, password, name }));
+    return !!(await this.studentRepository.save({ email, password, name }));
   }
 
   async validateUser({ email, password }): Promise<Omit<StudentEntity, 'password'>> {
-    const account = await this.studentEntityRepository.findOne({
+    const account = await this.studentRepository.findOne({
       select: ['id', 'email', 'name', 'password'],
       where: { email },
     });
@@ -41,5 +40,17 @@ export class StudentsService {
   async login({ id, email, name }: Pick<StudentEntity, 'id' | 'email' | 'name'>) {
     const payload = { id, email, name, role: Role.Student };
     return { 'access-token': this.jwtService.sign(payload) };
+  }
+
+  async toggleFollow(studentId: number, { schoolId }: ToggleFollowDto) {
+    const follow = await this.followRepository.findOne({ where: { studentId, schoolId } });
+
+    if (follow) {
+      await this.followRepository.softDelete(follow);
+    } else {
+      await this.followRepository.insert({ studentId, schoolId });
+    }
+
+    return true;
   }
 }

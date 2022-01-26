@@ -4,12 +4,12 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { StudentsService } from './students.service';
 import { StudentsController } from './students.controller';
-import { StudentEntity } from '../models/entities';
 import { jwtConstants } from '../auth/constants';
+import { FollowRepository, StudentRepository } from '../models/repositories';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([StudentEntity]),
+    TypeOrmModule.forFeature([StudentRepository, FollowRepository]),
     JwtModule.register({
       secret: jwtConstants.secret.student,
       signOptions: { expiresIn: '1d' },

@@ -1,11 +1,8 @@
-import { Body, Controller, Get, Post, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Put, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 
 import { StudentsService } from './students.service';
-import { RegisterStudentDto, StudentLoginDto } from './dto';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { RolesGuard } from '../auth/guards/roles.guard';
-import { Role } from '../common';
+import { ToggleFollowDto, RegisterStudentDto, StudentLoginDto } from './dto';
 import { StudentJwtAuthGuard } from '../auth/guards/student-jwt-auth.guard';
 
 @ApiTags('students')
@@ -26,10 +23,17 @@ export class StudentsController {
   }
 
   @Get('profile')
-  @Roles(Role.Student)
-  @UseGuards(StudentJwtAuthGuard, RolesGuard)
+  @UseGuards(StudentJwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
   async profile(@Request() req) {
     return req.user;
+  }
+
+  @Put('follow')
+  @UseGuards(StudentJwtAuthGuard)
+  @ApiBody({})
+  @ApiBearerAuth('JWT-auth')
+  async toggleFollow(@Request() req, @Body() body: ToggleFollowDto) {
+    return this.studentsService.toggleFollow(req.user.id, body);
   }
 }

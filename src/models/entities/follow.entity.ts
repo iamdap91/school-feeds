@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index, JoinColumn, DeleteDateColumn } from 'typeorm';
 import { SchoolEntity } from './school.entity';
 import { StudentEntity } from './student.entity';
 
@@ -14,6 +14,9 @@ export class FollowEntity {
   @Index()
   @Column('int')
   studentId: number;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @JoinColumn({ name: 'school_id', referencedColumnName: 'id' })
   @ManyToOne(() => SchoolEntity, { lazy: true })
