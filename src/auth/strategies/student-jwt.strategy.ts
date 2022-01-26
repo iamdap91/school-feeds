@@ -10,12 +10,12 @@ export class StudentJwtStrategy extends PassportStrategy(Strategy, 'student-jwt'
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: jwtConstants.secret.manager,
+      secretOrKey: jwtConstants.secret.student,
     });
   }
 
   async validate({ id, email, name, role }) {
-    if (role !== Role.Manager) throw new UnauthorizedException();
-    return { id, email, name, role: role === Role.Manager ? Role.Manager : Role.Student };
+    if (role !== Role.Student) throw new UnauthorizedException();
+    return { id, email, name, role: Role.Student };
   }
 }

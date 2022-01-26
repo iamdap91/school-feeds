@@ -16,6 +16,6 @@ export class ManagerJwtStrategy extends PassportStrategy(Strategy, 'manager-jwt'
 
   async validate({ id, email, name, role }) {
     if (role !== Role.Manager) throw new UnauthorizedException();
-    return { id, email, name, role: role === Role.Manager ? Role.Manager : Role.Student };
+    return { id, email, name, role: Role.Manager };
   }
 }

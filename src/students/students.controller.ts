@@ -3,10 +3,10 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { StudentsService } from './students.service';
 import { RegisterStudentDto, StudentLoginDto } from './dto';
-import { ManagerJwtStrategy } from '../auth/strategies/manager-jwt.strategy';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Role } from '../common';
+import { StudentJwtAuthGuard } from '../auth/guards/student-jwt-auth.guard';
 
 @ApiTags('students')
 @Controller('students')
@@ -27,7 +27,7 @@ export class StudentsController {
 
   @Get('profile')
   @Roles(Role.Student)
-  @UseGuards(ManagerJwtStrategy, RolesGuard)
+  @UseGuards(StudentJwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   async profile(@Request() req) {
     return req.user;
