@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { ManagerJwtStrategy } from './strategies/manager-jwt.strategy';
 import { ManagersModule } from '../managers/managers.module';
 
 @Module({
   imports: [ManagersModule, PassportModule],
-  providers: [JwtStrategy],
+  providers: [ManagerJwtStrategy],
   exports: [],
 })
 export class AuthModule {}

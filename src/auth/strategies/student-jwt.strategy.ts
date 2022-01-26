@@ -5,7 +5,7 @@ import { jwtConstants } from '../constants';
 import { Role } from '../../common';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class StudentJwtStrategy extends PassportStrategy(Strategy, 'student-jwt') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

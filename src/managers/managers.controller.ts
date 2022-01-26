@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { LoginDto, RegisterManagerDto } from './dto';
 import { ManagersService } from './managers.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ManagerJwtAuthGuard } from '../auth/guards/manager-jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Role } from '../common';
@@ -27,7 +27,7 @@ export class ManagersController {
 
   @Get('profile')
   @Roles(Role.Manager)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(ManagerJwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   async profile(@Request() req) {
     return req.user;
