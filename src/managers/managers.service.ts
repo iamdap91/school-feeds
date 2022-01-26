@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ExistingAccountError } from '../errors';
 import { ManagerEntity } from '../models/entities';
 import { RegisterManagerDto } from './dto';
+import { Role } from '../common';
 
 @Injectable()
 export class ManagersService {
@@ -20,11 +21,10 @@ export class ManagersService {
     if (account) {
       throw new ExistingAccountError();
     }
-
     return !!(await this.managerRepository.save({ email, password, name }));
   }
 
-  async validateUser(email: string, password: string): Promise<Omit<ManagerEntity, 'password'>> {
+  async validateUser({ email, password }): Promise<Omit<ManagerEntity, 'password'>> {
     const account = await this.managerRepository.findOne({
       select: ['id', 'email', 'name', 'password'],
       where: { email },
@@ -39,7 +39,7 @@ export class ManagersService {
   }
 
   async login({ id, email, name }: Pick<ManagerEntity, 'id' | 'email' | 'name'>) {
-    const payload = { id, email, name, isManager: true };
+    const payload = { id, email, name, role: Role.Manager };
     return { 'access-token': this.jwtService.sign(payload) };
   }
 }

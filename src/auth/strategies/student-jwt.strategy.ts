@@ -5,17 +5,17 @@ import { jwtConstants } from '../constants';
 import { Role } from '../../common';
 
 @Injectable()
-export class ManagerJwtStrategy extends PassportStrategy(Strategy, 'manager-jwt') {
+export class StudentJwtStrategy extends PassportStrategy(Strategy, 'student-jwt') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: jwtConstants.secret.manager,
+      secretOrKey: jwtConstants.secret.student,
     });
   }
 
   async validate({ id, email, name, role }) {
-    if (role !== Role.Manager) throw new UnauthorizedException();
-    return { id, email, name, role: Role.Manager };
+    if (role !== Role.Student) throw new UnauthorizedException();
+    return { id, email, name, role: Role.Student };
   }
 }

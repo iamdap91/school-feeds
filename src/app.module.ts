@@ -6,6 +6,8 @@ import { entities } from './models/entities';
 import { AuthModule } from './auth/auth.module';
 import { SchoolsModule } from './schools/schools.module';
 import { PostsModule } from './posts/posts.module';
+import { StudentsController } from './students/students.controller';
+import { StudentsModule } from './students/students.module';
 
 @Module({
   imports: [
@@ -25,7 +27,9 @@ import { PostsModule } from './posts/posts.module';
     }),
     SchoolsModule,
     PostsModule,
+    StudentsModule,
   ],
   providers: [],
+  controllers: [StudentsController],
 })
 export class AppModule {}
