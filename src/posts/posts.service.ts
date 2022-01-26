@@ -17,6 +17,10 @@ export class PostsService {
     return !!(await this.postEntityRepository.save({ schoolId, content }));
   }
 
+  async findPost(id: number) {
+    return this.postEntityRepository.findOne({ where: { id } });
+  }
+
   async updatePost(id: number, content: string) {
     if (!content) throw new NoContentError();
     return !!(await this.postEntityRepository.update(id, { content }));
