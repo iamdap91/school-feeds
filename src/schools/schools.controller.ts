@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Request, Get, Param } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { SchoolsService } from './schools.service';
@@ -15,5 +15,10 @@ export class SchoolsController {
   @ApiBearerAuth('JWT-auth')
   async createSchool(@Request() req, @Body() body: CreateSchoolDto) {
     return await this.schoolsService.createSchool(req?.user?.id, body);
+  }
+
+  @Get(':id/posts')
+  async getPosts(@Param('id') id) {
+    return await this.schoolsService.findPostsBySchool(id);
   }
 }
