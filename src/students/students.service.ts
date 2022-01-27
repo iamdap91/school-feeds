@@ -53,4 +53,13 @@ export class StudentsService {
 
     return true;
   }
+
+  async findSchoolList(studentId: number) {
+    const follows = await this.followRepository.find({
+      relations: ['school'],
+      where: { studentId },
+    });
+
+    return await Promise.all(follows.map((follow) => follow.school));
+  }
 }

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Put, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { StudentsService } from './students.service';
 import { ToggleFollowDto, RegisterStudentDto, StudentLoginDto } from './dto';
@@ -35,5 +35,13 @@ export class StudentsController {
   @ApiBearerAuth('JWT-auth')
   async toggleFollow(@Request() req, @Body() body: ToggleFollowDto) {
     return this.studentsService.toggleFollow(req.user.id, body);
+  }
+
+  @Get(':id/schools')
+  @UseGuards(StudentJwtAuthGuard)
+  @ApiParam({ name: 'id', required: true, type: 'number' })
+  @ApiBearerAuth('JWT-auth')
+  async getSchoolList(@Request() req) {
+    return await this.studentsService.findSchoolList(req.user.id);
   }
 }
