@@ -13,7 +13,7 @@ export class SchoolsService {
   ) {}
 
   async createSchool(managerId: number, { name, type }: CreateSchoolDto) {
-    return !!(await this.managerRepository.save({ name, type, managerId }));
+    return await this.managerRepository.save({ name, type, managerId });
   }
 
   async findPostsBySchoolId(schoolId: number) {
