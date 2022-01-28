@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SchoolsService } from './schools.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { SchoolsService } from './schools.service';
 import { PostEntity, SchoolEntity } from '../models/entities';
 
 const schoolArray = [
