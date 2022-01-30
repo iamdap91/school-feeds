@@ -16,12 +16,12 @@ export class ManagersService {
     private readonly jwtService: JwtService
   ) {}
 
-  async register({ email, password, name }: RegisterManagerDto): Promise<boolean> {
+  async register({ email, password, name }: RegisterManagerDto) {
     const account = await this.managerRepository.findOne({ select: ['id'], where: { email } });
     if (account) {
       throw new ExistingAccountError();
     }
-    return !!(await this.managerRepository.save({ email, password, name }));
+    return await this.managerRepository.save({ email, password, name });
   }
 
   async validateUser({ email, password }): Promise<Omit<ManagerEntity, 'password'>> {
