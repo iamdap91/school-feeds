@@ -45,6 +45,7 @@ $ npm run start
 * orm sync 옵션을 켜 둔 상태이므로, 끄고 마이그레이션 코드 작성
 * 인증 validation 쪽 대충 작업한 부분 수정
 * 공통 응답, 에러처리
+* class-validator dto 에 추가
 
 
 
